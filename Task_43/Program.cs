@@ -1,32 +1,41 @@
 ﻿// Задача 43: Напишите программу, которая найдёт точку пересечения двух прямых, 
 // заданных уравнениями y = k1 * x + b1, y = k2 * x + b2; 
 // значения b1, k1, b2 и k2 задаются пользователем.
-// b1 = 2, k1 = 5, b2 = 4, k2 = 9 -> (-0,5; -0,5)
-Console.Clear();
-Console.Write("Введите число b1: ");
-int b1 = int.Parse(Console.ReadLine());
-Console.Write("Введите число k1: ");
-int k1 = int.Parse(Console.ReadLine());
-Console.Write("Введите число b2: ");
-int b2 = int.Parse(Console.ReadLine());
-Console.Write("Введите число k2: ");
-int k2 = int.Parse(Console.ReadLine());
+// k1 = 2, b1 = 5, k2 = 4, b2 = 9 -> (-0,5; -0,5)
 
-float PointCross(int b1, int k1, int b2, int k2)
+float[] CalculateInterSection(float[] arr)
 {
-    if(k1 == k2 && b1 == b2)
+    if(arr[0] == arr[2])
     {
         Console.WriteLine("Прямые совпадают");
+        return null;
     }
-    if(k1==k2)
-    {
-        Console.WriteLine("Прямые параллельны");
-    }
-    else
-    {
-        float x = (b2-b1)/(k1-k2);
-        float y = (k1*(b2-b1))/(k1*x+b1);
-    }
-    return 0;
+    
+    float x = (arr[3]-arr[1])/(arr[0]-arr[2]);
+    float y = arr[0]*x + arr[1];
+    float[] answerArray= {x, y};
+    return answerArray;
 }
-Console.WriteLine($"Точкой пересечения двух линей станет: {PointCross(b1, k1, b2, k2)}");
+
+float[] GetArrayFromString(string stringArray)
+{
+    string[] nums = stringArray.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+    float[] res = new float[nums.Length];
+    for (int i = 0; i < nums.Length; i++)
+    {
+        res[i] = float.Parse(nums[i]);
+    }
+    return res;
+}
+
+string Promt(string message)
+{
+    Console.Write(message);
+    string input = Console.ReadLine();
+    return input;
+}
+Console.Clear();
+string userInput = Promt("Введите значения координат k1, b1, k2, b2 через пробел: ");
+float [] inputArray = GetArrayFromString(userInput);
+float[] answer = CalculateInterSection(inputArray);
+Console.WriteLine($"Пересечение линий происходит в координатах: x = {answer[0]}, y = {answer[1]}");
